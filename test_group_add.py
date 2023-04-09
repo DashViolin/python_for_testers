@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from group import Group
 
 
 class TestGroupAdd:
@@ -14,22 +15,58 @@ class TestGroupAdd:
         self.wd.quit()
 
     def test_group_add(self):
-        self.wd.get("http://localhost/addressbook/")
-        self.wd.find_element(By.NAME, "user").send_keys("admin")
-        self.wd.find_element(By.NAME, "pass").send_keys("secret")
-        self.wd.find_element(By.NAME, "pass").send_keys(Keys.ENTER)
-        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
-        self.wd.find_element(By.LINK_TEXT, "groups").click()
-        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
-        self.wd.find_element(By.NAME, "new").click()
-        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
-        self.wd.find_element(By.NAME, "group_name").click()
-        self.wd.find_element(By.NAME, "group_name").send_keys("123")
-        self.wd.find_element(By.NAME, "group_header").click()
-        self.wd.find_element(By.NAME, "group_header").send_keys("456")
-        self.wd.find_element(By.NAME, "group_footer").click()
-        self.wd.find_element(By.NAME, "group_footer").send_keys("abc")
+        group = Group(name="123", header="456", footer="abc")
+        self.open_home_page()
+        self.login(username="admin", password="secret")
+        self.open_groups_page()
+        self.init_group_creation()
+        self.fill_group_form(group)
+        self.submit_group_creation()
+        self.return_to_group_page()
+        self.logout()
+
+    def test_empty_group_add(self):
+        group = Group(name="", header="", footer="")
+        self.open_home_page()
+        self.login(username="admin", password="secret")
+        self.open_groups_page()
+        self.init_group_creation()
+        self.fill_group_form(group)
+        self.submit_group_creation()
+        self.return_to_group_page()
+        self.logout()
+
+    def logout(self):
+        self.wd.find_element(By.LINK_TEXT, "Logout").click()
+
+    def return_to_group_page(self):
+        self.wd.find_element(By.LINK_TEXT, "group page").click()
+
+    def submit_group_creation(self):
         self.wd.find_element(By.NAME, "submit").click()
         WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
-        self.wd.find_element(By.LINK_TEXT, "group page").click()
-        self.wd.find_element(By.LINK_TEXT, "Logout").click()
+
+    def fill_group_form(self, group):
+        self.wd.find_element(By.NAME, "group_name").click()
+        self.wd.find_element(By.NAME, "group_name").send_keys(group.name)
+        self.wd.find_element(By.NAME, "group_header").click()
+        self.wd.find_element(By.NAME, "group_header").send_keys(group.header)
+        self.wd.find_element(By.NAME, "group_footer").click()
+        self.wd.find_element(By.NAME, "group_footer").send_keys(group.footer)
+
+    def init_group_creation(self):
+        self.wd.find_element(By.NAME, "new").click()
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def open_groups_page(self):
+        self.wd.find_element(By.LINK_TEXT, "groups").click()
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def login(self, username, password):
+        self.wd.find_element(By.NAME, "user").send_keys(username)
+        self.wd.find_element(By.NAME, "pass").send_keys(password)
+        self.wd.find_element(By.NAME, "pass").send_keys(Keys.ENTER)
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def open_home_page(self):
+        self.wd.get("http://localhost/addressbook/")
