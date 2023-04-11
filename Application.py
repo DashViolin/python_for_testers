@@ -8,34 +8,9 @@ from users_data import FillComments
 from users_data import FillContacts
 
 
-class TestAddnewcontact:
-    def setup_method(self):
+class Application:
+    def __init__(self):
         self.wd = webdriver.Firefox()
-
-    def teardown_method(self):
-        self.wd.quit()
-
-    def test_add_new_contact(self):
-        self.open_home_page()
-        self.login(username="admin", password="secret")
-        self.open_contact_page()
-        self.add_new_contact()
-        personal_data = PersonalData(firstname="Dash", middlename="Kysyash", lastname="Loverats", nickname="Megadash")
-        self.fill_personal_data_form(personal_data)
-        self.add_picture()
-        optional_fields = OptionalFields(title="No", company="ZZ-Top")
-        self.fill_optional_fields(optional_fields)
-        fill_contacts = Contacts(address="111", home="222", mobile="333", work="444", fax="555", email="666",
-                                 email2="777", email3="8880", homepage="999")
-        self.fill_contact_form(fill_contacts)
-        date_fields = DateFields(bday="11", bmonth="December", byear="1999", aday="13", amonth="May", ayear="1985")
-        self.fill_date_fields(date_fields)
-        fill_address = FillContacts(address="Moscow", phone="123123123")
-        self.fill_contacts(fill_address)
-        fill_comments = FillComments(comment="comment")
-        self.fill_comments(fill_comments)
-        self.open_home_page_before_logout()
-        self.logout()
 
     def logout(self):
         self.wd.find_element(By.LINK_TEXT, "Logout").click()
@@ -51,22 +26,6 @@ class TestAddnewcontact:
         self.wd.find_element(By.XPATH, "//option[. = 'contacts']").click()
         self.wd.find_element(By.NAME, "address2").send_keys(fill_address.address)
         self.wd.find_element(By.NAME, "phone2").send_keys(fill_address.phone)
-
-    # def fill_date_fields(self):
-    # dropdown = self.wd.find_element(By.NAME, "bday")
-    # dropdown.find_element(By.XPATH, "//option[. = '15']").click()
-    # self.wd.find_element(By.CSS_SELECTOR, "select:nth-child(61) > option:nth-child(17)").click()
-    # dropdown = self.wd.find_element(By.NAME, "bmonth")
-    # dropdown.find_element(By.XPATH, "//option[. = 'October']").click()
-    # self.wd.find_element(By.CSS_SELECTOR, "select:nth-child(62) > option:nth-child(11)").click()
-    # self.wd.find_element(By.NAME, "byear").send_keys("1990")
-    # dropdown = self.wd.find_element(By.NAME, "aday")
-    # dropdown.find_element(By.XPATH, "//option[. = '8']").click()
-    # dropdown = self.wd.find_element(By.NAME, "amonth")
-    # dropdown.find_element(By.XPATH, "//option[. = 'April']").click()
-    # self.wd.find_element(By.NAME, "ayear").send_keys("1995")
-    # dropdown = self.wd.find_element(By.NAME, "new_group")
-    # return dropdown
 
     def fill_date_fields(self, date_fields: DateFields):
         self.wd.find_element(By.NAME, "bday").send_keys(date_fields.bday)
@@ -115,3 +74,6 @@ class TestAddnewcontact:
 
     def open_home_page(self):
         self.wd.get("http://localhost/addressbook/")
+
+    def destroy(self):
+        self.wd.quit()

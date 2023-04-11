@@ -15,11 +15,11 @@ class TestGroupAdd:
         self.wd.quit()
 
     def test_group_add(self):
-        group = Group(name="123", header="456", footer="abc")
         self.open_home_page()
         self.login(username="admin", password="secret")
         self.open_groups_page()
         self.init_group_creation()
+        group = Group(name="123", header="456", footer="abc")
         self.fill_group_form(group)
         self.submit_group_creation()
         self.return_to_group_page()
