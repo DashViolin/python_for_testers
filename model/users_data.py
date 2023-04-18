@@ -1,15 +1,17 @@
 class PersonalData:
-    def __init__(self, firstname, middlename, lastname, nickname):
+    def __init__(self, firstname, middlename, lastname, nickname, title, company):
         self.firstname = firstname
         self.middlename = middlename
         self.lastname = lastname
         self.nickname = nickname
-
-
-class OptionalFields:
-    def __init__(self, title, company):
         self.title = title
         self.company = company
+
+
+#class OptionalFields:
+ #   def __init__(self, title, company):
+  #      self.title = title
+   #     self.company = company
 
 
 class Contacts:

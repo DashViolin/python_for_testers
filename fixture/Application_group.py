@@ -1,0 +1,42 @@
+from selenium import webdriver
+class Application_group:
+    def __init__(self):
+        self.wd = webdriver.Firefox()
+
+    def logout(self):
+        self.wd.find_element(By.LINK_TEXT, "Logout").click()
+
+    def return_to_group_page(self):
+        self.wd.find_element(By.LINK_TEXT, "group page").click()
+
+    def submit_group_creation(self):
+        self.wd.find_element(By.NAME, "submit").click()
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def fill_group_form(self, group):
+        self.wd.find_element(By.NAME, "group_name").click()
+        self.wd.find_element(By.NAME, "group_name").send_keys(group.name)
+        self.wd.find_element(By.NAME, "group_header").click()
+        self.wd.find_element(By.NAME, "group_header").send_keys(group.header)
+        self.wd.find_element(By.NAME, "group_footer").click()
+        self.wd.find_element(By.NAME, "group_footer").send_keys(group.footer)
+
+    def init_group_creation(self):
+        self.wd.find_element(By.NAME, "new").click()
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def open_groups_page(self):
+        self.wd.find_element(By.LINK_TEXT, "groups").click()
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def login(self, username, password):
+        self.wd.find_element(By.NAME, "user").send_keys(username)
+        self.wd.find_element(By.NAME, "pass").send_keys(password)
+        self.wd.find_element(By.NAME, "pass").send_keys(Keys.ENTER)
+        WebDriverWait(self.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def open_home_page(self):
+        self.wd.get("http://localhost/addressbook/")
+
+    def destroy(self):
+        self.wd.quit()

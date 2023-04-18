@@ -1,19 +1,17 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from users_data import PersonalData
-from users_data import OptionalFields
-from users_data import Contacts
-from users_data import DateFields
-from users_data import FillComments
-from users_data import FillContacts
+from model.users_data import PersonalData
+from model.users_data import Contacts
+from model.users_data import DateFields
+from model.users_data import FillComments
+from model.users_data import FillContacts
+from fixture.session import SessionHelper
 
 
 class Application:
     def __init__(self):
         self.wd = webdriver.Firefox()
-
-    def logout(self):
-        self.wd.find_element(By.LINK_TEXT, "Logout").click()
+        self.session = SessionHelper(self)
 
     def open_home_page_before_logout(self):
         self.wd.find_element(By.CSS_SELECTOR, "input:nth-child(87)").click()
@@ -48,15 +46,9 @@ class Application:
         self.wd.find_element(By.NAME, "email3").send_keys(fill_contacts.email3)
         self.wd.find_element(By.NAME, "homepage").send_keys(fill_contacts.homepage)
 
-    def fill_optional_fields(self, optional_fields: OptionalFields):
-        self.wd.find_element(By.NAME, "title").send_keys(optional_fields.title)
-        self.wd.find_element(By.NAME, "company").send_keys(optional_fields.company)
-
-    def add_picture(self):
-        self.wd.find_element(By.NAME, "photo").send_keys(
-            r"C:\Users\user\Pictures\Фоновые изображения рабочего стола\4. Кот с наушниками.jpg")
-
     def fill_personal_data_form(self, personal_data: PersonalData):
+        self.wd.find_element(By.NAME, "title").send_keys(personal_data.title)
+        self.wd.find_element(By.NAME, "company").send_keys(personal_data.company)
         self.wd.find_element(By.NAME, "firstname").send_keys(personal_data.firstname)
         self.wd.find_element(By.NAME, "middlename").send_keys(personal_data.middlename)
         self.wd.find_element(By.NAME, "lastname").send_keys(personal_data.lastname)
@@ -67,10 +59,6 @@ class Application:
 
     def open_contact_page(self):
         self.wd.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
-
-    def login(self, username, password):
-        self.wd.find_element(By.NAME, "user").send_keys(username)
-        self.wd.find_element(By.NAME, "pass").send_keys(password)
 
     def open_home_page(self):
         self.wd.get("http://localhost/addressbook/")

@@ -1,14 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from users_data import PersonalData
-from users_data import OptionalFields
-from users_data import Contacts
-from users_data import DateFields
-from users_data import FillComments
-from users_data import FillContacts
+from model.users_data import PersonalData
+# from users_data import OptionalFields
+from model.users_data import Contacts
+from model.users_data import DateFields
+from model.users_data import FillComments
+from model.users_data import FillContacts
 
 
-class TestAddnewcontact:
+class TestAddNewContact:
     def setup_method(self):
         self.wd = webdriver.Firefox()
 
@@ -20,11 +20,11 @@ class TestAddnewcontact:
         self.login(username="admin", password="secret")
         self.open_contact_page()
         self.add_new_contact()
-        personal_data = PersonalData(firstname="Dash", middlename="Kysyash", lastname="Loverats", nickname="Megadash")
+        personal_data = PersonalData(firstname="Dash", middlename="Kysyash", lastname="Loverats", nickname="Megadash", title="No", company="ZZ-Top")
         self.fill_personal_data_form(personal_data)
-        self.add_picture()
-        optional_fields = OptionalFields(title="No", company="ZZ-Top")
-        self.fill_optional_fields(optional_fields)
+        # self.add_picture()
+        # optional_fields = OptionalFields(title="No", company="ZZ-Top")
+        # self.fill_optional_fields(optional_fields)
         fill_contacts = Contacts(address="111", home="222", mobile="333", work="444", fax="555", email="666",
                                  email2="777", email3="8880", homepage="999")
         self.fill_contact_form(fill_contacts)
@@ -89,19 +89,21 @@ class TestAddnewcontact:
         self.wd.find_element(By.NAME, "email3").send_keys(fill_contacts.email3)
         self.wd.find_element(By.NAME, "homepage").send_keys(fill_contacts.homepage)
 
-    def fill_optional_fields(self, optional_fields: OptionalFields):
-        self.wd.find_element(By.NAME, "title").send_keys(optional_fields.title)
-        self.wd.find_element(By.NAME, "company").send_keys(optional_fields.company)
+    # def fill_optional_fields(self, optional_fields: OptionalFields):
+    #   self.wd.find_element(By.NAME, "title").send_keys(optional_fields.title)
+    #  self.wd.find_element(By.NAME, "company").send_keys(optional_fields.company)
 
-    def add_picture(self):
-        self.wd.find_element(By.NAME, "photo").send_keys(
-            r"C:\Users\user\Pictures\Фоновые изображения рабочего стола\4. Кот с наушниками.jpg")
+    # def add_picture(self):
+    #   self.wd.find_element(By.NAME, "photo").send_keys(
+    #      r"C:\Users\user\Pictures\Фоновые изображения рабочего стола\4. Кот с наушниками.jpg")
 
     def fill_personal_data_form(self, personal_data: PersonalData):
         self.wd.find_element(By.NAME, "firstname").send_keys(personal_data.firstname)
         self.wd.find_element(By.NAME, "middlename").send_keys(personal_data.middlename)
         self.wd.find_element(By.NAME, "lastname").send_keys(personal_data.lastname)
         self.wd.find_element(By.NAME, "nickname").send_keys(personal_data.nickname)
+        self.wd.find_element(By.NAME, "title").send_keys(personal_data.title)
+        self.wd.find_element(By.NAME, "company").send_keys(personal_data.company)
 
     def add_new_contact(self):
         self.wd.find_element(By.LINK_TEXT, "add new").click()
