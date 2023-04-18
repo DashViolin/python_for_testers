@@ -10,4 +10,5 @@ class SessionHelper:
         self.app.wd.find_element(By.NAME, "pass").send_keys(password)
 
     def logout(self):
+        self.app.open_home_page()
         self.app.wd.find_element(By.LINK_TEXT, "Logout").click()
