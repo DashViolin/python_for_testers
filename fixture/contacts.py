@@ -37,5 +37,5 @@ class ContactsHelper:
     def add_new_contact(self):
         self.app.wd.find_element(By.LINK_TEXT, "add new").click()
 
-    def open_page(self):
-        self.app.wd.find_element(By.CSS_SELECTOR, "input:nth-child(7)").click()
+    # def open_page(self):
+    #     self.app.wd.find_element(By.LINK_TEXT, "input:nth-child(7)").click()

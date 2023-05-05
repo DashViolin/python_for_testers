@@ -9,7 +9,7 @@ class GroupsHelper:
 
     def submit_group_creation(self):
         self.app.wd.find_element(By.NAME, "submit").click()
-        WebDriverWait(self.app.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+        WebDriverWait(self.app.wd, self.app.wait).until(ec.visibility_of_element_located((By.ID, "footer")))
 
     def fill_group_form(self, group):
         self.app.wd.find_element(By.NAME, "group_name").click()
@@ -21,10 +21,14 @@ class GroupsHelper:
 
     def init_group_creation(self):
         self.app.wd.find_element(By.NAME, "new").click()
-        WebDriverWait(self.app.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+        WebDriverWait(self.app.wd, self.app.wait).until(ec.visibility_of_element_located((By.ID, "footer")))
 
     def open_groups_page(self):
         self.app.wd.find_element(By.LINK_TEXT, "groups").click()
-        WebDriverWait(self.app.wd, 5).until(ec.visibility_of_element_located((By.ID, "footer")))
+        WebDriverWait(self.app.wd, self.app.wait).until(ec.visibility_of_element_located((By.ID, "footer")))
+
+    def del_first_group(self):
+        self.app.wd.find_element(By.NAME, "selected[]").click()
+        self.app.wd.find_element(By.NAME, "delete").click()
 
  

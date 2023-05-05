@@ -1,19 +1,10 @@
-import pytest
 from fixture.application import Application
 from model.users_data import ContactForm
-
-
-@pytest.fixture
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
 
 
 def test_add_new_contact(app: Application):
     app.open_home_page()
     app.session.login(username="admin", password="secret")
-    app.contacts.open_page()
     app.contacts.add_new_contact()
     contact_form = ContactForm(firstname="Dash", middlename="Kysyash", lastname="Loverats", nickname="Megadash",
                                title="No", company="ZZ-Top", address="111", home="222", mobile="333", work="444",
