@@ -39,3 +39,6 @@ class ContactsHelper:
 
     # def open_page(self):
     #     self.app.wd.find_element(By.LINK_TEXT, "input:nth-child(7)").click()
+    def del_first_contact(self):
+        self.app.wd.find_element(By.NAME, "selected[]").click()
+        self.app.wd.find_element(By.NAME, "delete").click()
