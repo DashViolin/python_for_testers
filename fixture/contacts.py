@@ -6,7 +6,7 @@ class ContactsHelper:
     def __init__(self, app):
         self.app = app
 
-    def fill_form(self, contact_form: ContactForm):
+    def fill_form(self, contact_form: ContactForm, edition_mode=False):
         self.app.wd.find_element(By.NAME, "firstname").send_keys(contact_form.firstname)
         self.app.wd.find_element(By.NAME, "middlename").send_keys(contact_form.middlename)
         self.app.wd.find_element(By.NAME, "lastname").send_keys(contact_form.lastname)
@@ -29,7 +29,8 @@ class ContactsHelper:
         self.app.wd.find_element(By.NAME, "amonth").send_keys(contact_form.amonth)
         self.app.wd.find_element(By.NAME, "ayear").send_keys(contact_form.ayear)
         # self.app.wd.find_element(By.NAME, "new_group")
-        self.app.wd.find_element(By.XPATH, "//option[. = 'contacts']").click()
+        if not edition_mode:
+            self.app.wd.find_element(By.XPATH, "//option[. = 'contacts']").click()
         self.app.wd.find_element(By.NAME, "address2").send_keys(contact_form.address2)
         self.app.wd.find_element(By.NAME, "phone2").send_keys(contact_form.phone)
         self.app.wd.find_element(By.NAME, "notes").send_keys(contact_form.comment)
@@ -40,5 +41,13 @@ class ContactsHelper:
     # def open_page(self):
     #     self.app.wd.find_element(By.LINK_TEXT, "input:nth-child(7)").click()
     def del_first_contact(self):
-        self.app.wd.find_element(By.NAME, "selected[]").click()
-        self.app.wd.find_element(By.NAME, "delete").click()
+        self.app.wd.find_element(By.ID, "1").click()
+        self.app.wd.find_element(By.CSS_SELECTOR, "input[value='Delete']").click()
+        assert self.app.wd.switch_to.alert.text == "Delete 1 addresses?"
+        self.app.wd.switch_to.alert.accept()
+
+    def init_contact_update(self):
+        self.app.wd.find_element(By.CSS_SELECTOR, "tr:nth-child(2) > .center:nth-child(8) img").click()
+
+    def submit_contact_update(self):
+        self.app.wd.find_element(By.NAME, "update").click()
