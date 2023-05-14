@@ -32,7 +32,7 @@ class GroupsHelper:
         self.app.wd.find_element(By.NAME, "delete").click()
 
     def init_group_edition(self):
-        self.app.wd.find_element(By.CSS_SELECTOR, "input[value='1']").click()
+        self.app.wd.find_element(By.CSS_SELECTOR, 'input[type="checkbox"]').click()
         self.app.wd.find_element(By.NAME, "edit").click()
         WebDriverWait(self.app.wd, self.app.wait).until(ec.visibility_of_element_located((By.ID, "footer")))
 
