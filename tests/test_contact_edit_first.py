@@ -12,6 +12,6 @@ def test_contact_edit_first(app: Application):
                                fax="", email="", email2="", email3="", homepage="", bday="",
                                bmonth="", byear="", aday="", amonth="", ayear="",
                                address2="", phone="", comment="")
-    app.contacts.fill_form(contact_form)
+    app.contacts.fill_contact_form(contact_form)
     app.contacts.submit_contact_update()
     app.session.logout()

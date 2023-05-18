@@ -11,5 +11,6 @@ def test_add_new_contact(app: Application):
                                fax="555", email="666", email2="777", email3="8880", homepage="999", bday="11",
                                bmonth="December", byear="1999", aday="13", amonth="May", ayear="1985",
                                address2="Moscow", phone="123123123", comment="comment")
-    app.contacts.fill_form(contact_form)
+    app.contacts.fill_contact_form(contact_form)
+    app.contacts.submit_contact_create()
     app.session.logout()
